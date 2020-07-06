@@ -1,0 +1,18 @@
+activemq:
+  broker-url: tcp://localhost:61616
+
+spring:
+  mail:
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          port: 587
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    host: smtp.gmail.com
+    username: jtest9249@gmail.com
+    password: Cinto29$
