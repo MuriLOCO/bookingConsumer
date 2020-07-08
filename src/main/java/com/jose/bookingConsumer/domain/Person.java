@@ -16,7 +16,8 @@ public class Person {
 
     @EqualsAndHashCode.Exclude
     @Id
-    private UUID id = UUID.randomUUID();
+    //Mongo has issues to Query using UUID so the ID needs to be converted to a String before saving
+    private String id = UUID.randomUUID().toString();
 
     @NonNull
     private String firstMame;

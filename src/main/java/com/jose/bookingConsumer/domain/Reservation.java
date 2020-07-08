@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Document
@@ -18,12 +17,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class Reservation {
 
+    @Indexed
     @EqualsAndHashCode.Exclude
     @Id
-    private UUID id = UUID.randomUUID();
+    //Mongo has issues to Query using UUID so the ID needs to be converted to a String before saving
+    private String id;
 
     @CreatedDate
-    @Indexed(expireAfter = "1m")
     @EqualsAndHashCode.Exclude
     private Instant createdAt = Instant.now();
 

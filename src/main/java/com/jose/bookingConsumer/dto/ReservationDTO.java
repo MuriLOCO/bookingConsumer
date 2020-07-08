@@ -1,11 +1,8 @@
 package com.jose.bookingConsumer.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 
 import java.io.Serializable;
 import java.time.Instant;

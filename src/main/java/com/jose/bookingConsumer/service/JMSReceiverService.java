@@ -16,10 +16,9 @@ import java.util.concurrent.CountDownLatch;
 public class JMSReceiverService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JMSReceiverService.class);
-    private static final String QUEUE_NAME_RESERVATION= "RESERVATION";
+    private static final String QUEUE_NAME_RESERVATION = "RESERVATION";
+    private static final String QUEUE_NAME_MODIFICATION = "MODIFY";
     private static final ObjectMapper objectMapper = new ObjectMapper();
-
-    private CountDownLatch latch = new CountDownLatch(1);
 
     @Autowired
     private ReservationService reservationService;
@@ -27,11 +26,24 @@ public class JMSReceiverService {
     @SneakyThrows
     @JmsListener(destination = QUEUE_NAME_RESERVATION)
     public void receiveReservation(String message) {
+        CountDownLatch latch = new CountDownLatch(1);
         LOGGER.info("Received message='{}'", message);
         latch.countDown();
 
         objectMapper.registerModule(new JavaTimeModule());
         ReservationDTO reservationDTO = objectMapper.readValue(message, ReservationDTO.class);
         reservationService.makeReservation(reservationDTO);
+    }
+
+    @SneakyThrows
+    @JmsListener(destination = QUEUE_NAME_MODIFICATION)
+    public void receiveModification(String message) {
+        CountDownLatch latch = new CountDownLatch(1);
+        LOGGER.info("Received message='{}'", message);
+        latch.countDown();
+
+        objectMapper.registerModule(new JavaTimeModule());
+        ReservationDTO reservationDTO = objectMapper.readValue(message, ReservationDTO.class);
+        reservationService.modifyReservation(reservationDTO);
     }
 }
